@@ -39,6 +39,7 @@ tags
 .idea/
 .ideaHaskellLib/
 *.iml
+out
 
 # Atom
 .haskell-ghc-mod.json
@@ -53,3 +54,6 @@ TAGS
 
 # other
 .DS_Store
+
+# AOC
+inputs
