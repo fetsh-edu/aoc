@@ -31,9 +31,6 @@ library
   hs-source-dirs:
       src
   default-extensions:
-      AutoDeriveTypeable
-      BangPatterns
-      BinaryLiterals
       ConstraintKinds
       DataKinds
       DefaultSignatures
@@ -43,21 +40,11 @@ library
       DeriveGeneric
       DeriveTraversable
       DoAndIfThenElse
-      EmptyDataDecls
       ExistentialQuantification
-      FlexibleContexts
-      FlexibleInstances
-      FunctionalDependencies
-      GADTs
-      GeneralizedNewtypeDeriving
-      InstanceSigs
-      KindSignatures
       LambdaCase
-      MonadFailDesugaring
       MultiParamTypeClasses
       MultiWayIf
       NamedFieldPuns
-      NoImplicitPrelude
       OverloadedStrings
       PartialTypeSignatures
       PatternGuards

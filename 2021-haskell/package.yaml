@@ -33,8 +33,6 @@ library:
     - -Wpartial-fields
     - -Wredundant-constraints
   default-extensions:
-    - BangPatterns
-    - BinaryLiterals
     - ConstraintKinds
     - DataKinds
     - DefaultSignatures
@@ -44,20 +42,11 @@ library:
     - DeriveGeneric
     - DeriveTraversable
     - DoAndIfThenElse
-    - EmptyDataDecls
     - ExistentialQuantification
-    - FlexibleContexts
-    - FlexibleInstances
-    - FunctionalDependencies
-    - GADTs
-    - GeneralizedNewtypeDeriving
-    - InstanceSigs
-    - KindSignatures
     - LambdaCase
     - MultiParamTypeClasses
     - MultiWayIf
     - NamedFieldPuns
-    - NoImplicitPrelude
     - OverloadedStrings
     - PartialTypeSignatures
     - PatternGuards
