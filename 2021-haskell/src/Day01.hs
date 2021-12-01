@@ -2,24 +2,26 @@ module Day01 (solve1, solve2) where
 
 import Relude ((&))
 
-import Control.Applicative
 import Data.List (tails)
 
 solve1 :: String -> String
 solve1 input =
-    zipWith (-) (tail nums) nums & filter (> 0) & length & show
-    where
-        nums = ints input
+    input
+        & ints
+        & slides 2
+        & filter (\x -> x !! 1 > head x) & length & show
 
 solve2 :: String -> String
 solve2 input =
-    zipWith (-) (tail nums) nums & filter (> 0) & length & show
-        where
-            nums = zip3 (tail $ tail measurements) (tail measurements) measurements & map (\(a,b,c) -> a + b + c)
-            measurements = ints input
-            
+    input
+        & ints
+        & slides 3
+        & slides 2
+        & filter (\x -> sum (x !! 1) > sum (head x)) & length & show
+
 ints :: String -> [Int]
 ints = map read . lines
 
-windows :: Int -> [a] -> [[a]]
-windows m = getZipList . traverse ZipList . take m . tails
+slides :: Int -> [a] -> [[a]]
+slides n =
+     foldr (zipWith (:)) (repeat []) . take n . tails
