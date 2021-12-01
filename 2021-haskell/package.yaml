@@ -69,19 +69,18 @@ executables:
     main:                Main.hs
     source-dirs:         app
     ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
     dependencies:
-    - aoc
+      - aoc
+    when:
+      - condition: false
+        other-modules: Paths_aoc
 
 tests:
-  aoc-test:
-    main:                Spec.hs
-    source-dirs:         test
-    ghc-options:
-    - -threaded
-    - -rtsopts
-    - -with-rtsopts=-N
+  spec:
+    defaults: hspec/hspec@master
     dependencies:
-    - aoc
+      - hspec
+      - aoc
