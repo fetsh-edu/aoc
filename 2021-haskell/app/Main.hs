@@ -4,10 +4,9 @@ import Day01
 import System.Environment
 import qualified System.FilePath as FP
 import Data.Function
-import qualified Data.Text as Text
 import qualified Data.Map.Strict as Map
 import Text.Printf (printf)
-import Relude (readMaybe, Map, Text)
+import Relude (readMaybe, Map)
 
 newtype Day = Day Int
     deriving (Eq, Ord, Show)
@@ -18,7 +17,7 @@ data Part = One | Two
 data Puzzle = Puzzle Day Part
     deriving (Eq, Ord, Show)
 
-puzzles :: Map Puzzle (String -> Text)
+puzzles :: Map Puzzle (String -> String)
 puzzles =
   Map.fromList [ (Puzzle (Day 1) One, Day01.solve1)
                , (Puzzle (Day 1) Two, Day01.solve2)
@@ -34,14 +33,14 @@ main = do
             Left t -> fail t
             Right p -> p & fileNameFor & readFile
     let answer = doPuzzle puzzle input
-    print answer
+    putStrLn answer
 
     where
-        doPuzzle :: Either String Puzzle -> String -> Text
-        doPuzzle (Left p) _ = Text.pack ("No puzzle: " ++ p)
+        doPuzzle :: Either String Puzzle -> String -> String
+        doPuzzle (Left p) _ = "No puzzle: " ++ p
         doPuzzle (Right puzzle) input =
             case Map.lookup puzzle puzzles of
-                    Nothing -> Text.pack "This day and part is not solved yet"
+                    Nothing -> "This day and part is not solved yet"
                     Just f -> f input
         
         fileNameFor :: Puzzle -> FilePath
