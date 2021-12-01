@@ -6,27 +6,21 @@
 
 Финальный код после изучений чужих решений:
 ```haskell
-module Day01 (solve1, solve2) where
-
-import Relude ((&))
-
-solve1 :: String -> String
+solve1 :: [Int] -> Int
 solve1 = solve 1
 
-solve2 :: String -> String
+solve2 :: [Int] -> Int
 solve2 = solve 3
 
-solve :: Int -> String -> String
+solve :: Int -> [Int] -> Int
 solve int input =
-    zipWith (<) ii (drop int ii) & filter id & length & show
-    where
-        ii = input & lines & map read :: [Int]
+    zipWith (<) input (drop int input) & filter id & length
 ```
 
 ## Initial 
 
 
-Сделать быстренько sliding window из двух элементов -- легко: zip листа с head листа. Но из трех элементов тем же способом (zip листа с head листа с head head листа) -- тоже быстренько, но некрасиво и неудобно. Никаких готовых функций, делающих мне sliding winow на хугле не нашлось.
+Сделать быстренько sliding window из двух элементов -- легко: zip листа с tail листа. Но из трех элементов тем же способом (zip листа с tail листа с tail tail листа) (never mind, its called drop 2 :) -- тоже быстренько, но некрасиво и неудобно. Никаких готовых функций, делающих мне sliding winow на хугле не нашлось.
 
 Начал писать рукурсивный метод, все дела, но тут нашлось такое: https://stackoverflow.com/questions/27726739/implementing-an-efficient-sliding-window-algorithm-in-haskell
 

@@ -1,15 +1,16 @@
-module Day01 (solve1, solve2) where
+module Day01 (solve1, solve2, parse) where
 
 import Relude ((&))
 
-solve1 :: String -> String
+parse :: String -> [Int]
+parse = fmap read . lines
+
+solve1 :: [Int] -> Int
 solve1 = solve 1
 
-solve2 :: String -> String
+solve2 :: [Int] -> Int
 solve2 = solve 3
 
-solve :: Int -> String -> String
+solve :: Int -> [Int] -> Int
 solve int input =
-    zipWith (<) ii (drop int ii) & filter id & length & show
-    where
-        ii = input & lines & map read :: [Int]
+    zipWith (<) input (drop int input) & filter id & length

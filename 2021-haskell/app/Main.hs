@@ -19,8 +19,8 @@ data Puzzle = Puzzle Day Part
 
 puzzles :: Map Puzzle (String -> String)
 puzzles =
-  Map.fromList [ (Puzzle (Day 1) One, Day01.solve1)
-               , (Puzzle (Day 1) Two, Day01.solve2)
+  Map.fromList [ (Puzzle (Day 1) One, show . Day01.solve1 . Day01.parse)
+               , (Puzzle (Day 1) Two, show . Day01.solve2 . Day01.parse)
                ]
 
 
