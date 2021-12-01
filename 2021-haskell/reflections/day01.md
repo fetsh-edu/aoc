@@ -1,5 +1,31 @@
 # AoC 2021 Day 1
 
+## Refactored
+
+Прикольно видеть, что за цифры перед тобой, и соображать, что окно из трех не нужно и не надо ничего складывать.
+
+Финальный код после изучений чужих решений:
+```haskell
+module Day01 (solve1, solve2) where
+
+import Relude ((&))
+
+solve1 :: String -> String
+solve1 = solve 1
+
+solve2 :: String -> String
+solve2 = solve 3
+
+solve :: Int -> String -> String
+solve int input =
+    zipWith (<) ii (drop int ii) & filter id & length & show
+    where
+        ii = input & lines & map read :: [Int]
+```
+
+## Initial 
+
+
 Сделать быстренько sliding window из двух элементов -- легко: zip листа с head листа. Но из трех элементов тем же способом (zip листа с head листа с head head листа) -- тоже быстренько, но некрасиво и неудобно. Никаких готовых функций, делающих мне sliding winow на хугле не нашлось.
 
 Начал писать рукурсивный метод, все дела, но тут нашлось такое: https://stackoverflow.com/questions/27726739/implementing-an-efficient-sliding-window-algorithm-in-haskell
@@ -46,3 +72,4 @@ nums
 Не очень нравится, да и, честно говоря, про `sequence`, `transposition` и вот это вот `foldr (zipWith (+)) (repeat 0)` надо бы лучше понять.
 
 Наверняка простой фолд по инпуту с подсчетом был бы проще и лучше.
+

@@ -28,7 +28,7 @@ main :: IO ()
 main = do
     args <- getArgs
     let puzzle = args & argsToTuple >>= parseArgs
-    input <- 
+    input <-
         case puzzle of
             Left t -> fail t
             Right p -> p & fileNameFor & readFile
@@ -42,15 +42,15 @@ main = do
             case Map.lookup puzzle puzzles of
                     Nothing -> "This day and part is not solved yet"
                     Just f -> f input
-        
+
         fileNameFor :: Puzzle -> FilePath
         fileNameFor (Puzzle (Day d) _) =
             "inputs" FP.</> "day" <> printf "%02d" d <> ".txt"
-        
+
         argsToTuple :: [String] -> Either String (String, String)
         argsToTuple (d : p : _) = Right (d, p)
         argsToTuple _ = Left "Wrong arguments. Expecting two: (day) and (part)"
-        
+
         parseArgs :: (String, String) -> Either String Puzzle
         parseArgs (dayT, partT) =
             Puzzle <$> parseDay dayT <*> parsePart partT
