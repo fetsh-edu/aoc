@@ -1,45 +1,39 @@
-module Day02 (Step (..), solve1, solve2, parse) where
+module Day02 (Step (..), solve1, solve2, apply2, parse, Position (..)) where
 
-import Relude ((&))
-
-parse :: String -> [Step]
-parse = fmap readStep . lines
-
-solve1 :: [Step] -> Int
-solve1 ps = ps & foldr apply1 (Position 0 0) & multiply
-
-solve2 :: [Step] -> Int
-solve2 ps = ps & foldr apply2 (Position 0 0) & multiply
-
+import Relude (foldl')
 
 data Step
-    = Forward Int
-    | Down Int
-    | Up Int
-    deriving (Eq, Show, Ord)
+    = Forward Int | Down Int | Up Int
+        deriving (Eq, Show, Ord)
 
-data Position = Position {
-    xPosition :: Int,
-    depth :: Int
-} deriving (Eq, Show)
+data Position
+    = Position { xPos :: Int, depth :: Int, aim :: Int}
+        deriving (Eq, Show)
 
-readStep :: String -> Step
-readStep s =
-    s & words & readStep'
+parse :: String -> [Step]
+parse = map (readStep . words) . lines
     where
-      readStep' ["up", y] = Up (read y)
-      readStep' ["down", y] = Down (read y)
-      readStep' ["forward", y] = Forward (read y)
+        readStep ["up", y] = Up (read y)
+        readStep ["down", y] = Down (read y)
+        readStep ["forward", y] = Forward (read y)
+        readStep sd = error ("Wrong step data" ++ mconcat sd)
 
-multiply :: Position -> Int
-multiply (Position x z) = x * z
+solve1 :: [Step] -> Int
+solve1 = solve apply1
 
-apply1 :: Step -> Position -> Position
-apply1 (Forward sx) (Position px z) = Position (px + sx) z
-apply1 (Down sz) (Position px pz) = Position px (pz + sz)
-apply1 (Up sz) (Position px pz) = Position px (pz - sz)
+solve2 :: [Step] -> Int
+solve2 = solve apply2
 
-apply2 :: Step -> Position -> Position
-apply2 (Forward sx) (Position px z) = Position (px + sx) z
-apply2 (Down sz) (Position px pz) = Position px (pz + sz)
-apply2 (Up sz) (Position px pz) = Position px (pz - sz)
+solve :: (Position -> Step -> Position) -> [Step] -> Int
+solve f =
+    (\(Position x d _) -> x * d) . foldl' f (Position 0 0 0)
+
+apply1 :: Position -> Step -> Position
+apply1 (Position px z a) (Forward sx) = Position (px + sx) z a
+apply1 (Position px pz a) (Down sz) = Position px (pz + sz) a
+apply1 (Position px pz a) (Up sz) = Position px (pz - sz) a
+
+apply2 :: Position -> Step -> Position
+apply2 (Position xP depth a) (Forward x) = Position (xP + x) (depth + a * x) a
+apply2 (Position px pz a) (Down sz) = Position px pz (a + sz)
+apply2 (Position px pz a) (Up sz) = Position px pz (a - sz)
