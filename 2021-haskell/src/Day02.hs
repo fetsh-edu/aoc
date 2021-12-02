@@ -1,4 +1,4 @@
-module Day02 (Step(..), solve1, solve2, parse) where
+module Day02 (solve1, solve2, parse) where
 
 import Relude (foldl')
 
