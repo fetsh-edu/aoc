@@ -1,6 +1,7 @@
 module Main where
 
 import Day01
+import Day02
 import System.Environment
 import qualified System.FilePath as FP
 import Data.Function
@@ -21,6 +22,8 @@ puzzles :: Map Puzzle (String -> String)
 puzzles =
   Map.fromList [ (Puzzle (Day 1) One, show . Day01.solve1 . Day01.parse)
                , (Puzzle (Day 1) Two, show . Day01.solve2 . Day01.parse)
+               , (Puzzle (Day 2) One, show . Day02.solve1 . Day02.parse)
+               , (Puzzle (Day 2) Two, show . Day02.solve2 . Day02.parse)
                ]
 
 

@@ -26,6 +26,7 @@ source-repository head
 library
   exposed-modules:
       Day01
+      Day02
       Lib.Utils
   other-modules:
       Paths_aoc
@@ -86,6 +87,7 @@ test-suite spec
   main-is: Spec.hs
   other-modules:
       Day01Spec
+      Day02Spec
       Paths_aoc
   hs-source-dirs:
       test
