@@ -13,4 +13,15 @@ Pretty straightforward: смоделировали данные, примени�
               \forward 2"
   ```
 - Разница между foldr, foldl, foldl' и прочими фолдами
-- Работа с data record'ами, их паттерн-матчинг, доставание по ключу. Пока пришлось избежать и обращаться по-простому.
+- Работа с data record'ами, их паттерн-матчинг, доставание по ключу. Пока пришлось избежать и обращаться по-простому. UPD: почитал, применил:
+  ```haskell
+  -- Такое: 
+  apply2 pos@Position{..} (Forward x) = pos{xPos = xPos + x, depth = depth + aim * x}
+  apply2 pos@Position{..} (Down x) = pos{aim = aim + x}
+  apply2 pos@Position{..} (Up x) = pos{aim = aim - x}
+    
+  -- Вместо такого:
+  apply2 (Position xP d a) (Forward x) = Position (xP + x) (d + a * x) a
+  apply2 (Position xP d a) (Down x) = Position xP d (a + x)
+  apply2 (Position xP d a) (Up x) = Position xP d (a - x)
+  ```

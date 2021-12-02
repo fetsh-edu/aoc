@@ -29,11 +29,11 @@ solve f =
     (\(Position x d _) -> x * d) . foldl' f (Position 0 0 0)
 
 apply1 :: Position -> Step -> Position
-apply1 (Position xP d a) (Forward x) = Position (xP + x) d a
-apply1 (Position xP d a) (Down x) = Position xP (d + x) a
-apply1 (Position xP d a) (Up x) = Position xP (d - x) a
+apply1 pos@Position{..} (Forward x) = pos{xPos = xPos + x}
+apply1 pos@Position{..} (Down x) = pos{depth = depth + x}
+apply1 pos@Position{..} (Up x) = pos{depth = depth - x}
 
 apply2 :: Position -> Step -> Position
-apply2 (Position xP d a) (Forward x) = Position (xP + x) (d + a * x) a
-apply2 (Position xP d a) (Down x) = Position xP d (a + x)
-apply2 (Position xP d a) (Up x) = Position xP d (a - x)
+apply2 pos@Position{..} (Forward x) = pos{xPos = xPos + x, depth = depth + aim * x}
+apply2 pos@Position{..} (Down x) = pos{aim = aim + x}
+apply2 pos@Position{..} (Up x) = pos{aim = aim - x}
