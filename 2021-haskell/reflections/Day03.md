@@ -176,3 +176,30 @@ generator f transposed@(x : _) = lC : generator f filtered
         lC = f x
         filtered = tail $ transpose $ filter (\num -> head num == lC) $ transpose transposed
 ```
+
+## Benchmarks
+
+```
+benchmarking Day3/p1
+time                 3.878 ms   (3.677 ms .. 4.028 ms)
+                     0.982 R²   (0.963 R² .. 0.995 R²)
+mean                 3.759 ms   (3.679 ms .. 3.895 ms)
+std dev              339.0 μs   (222.4 μs .. 501.5 μs)
+variance introduced by outliers: 59% (severely inflated)
+                 
+benchmarking Day3/p1 without bitflip. First lazy one
+time                 7.714 ms   (7.376 ms .. 8.112 ms)
+                     0.989 R²   (0.978 R² .. 0.997 R²)
+mean                 7.498 ms   (7.378 ms .. 7.708 ms)
+std dev              436.7 μs   (263.9 μs .. 606.0 μs)
+variance introduced by outliers: 31% (moderately inflated)
+                 
+benchmarking Day3/p2
+time                 8.418 ms   (8.023 ms .. 8.947 ms)
+                     0.983 R²   (0.967 R² .. 0.998 R²)
+mean                 8.053 ms   (7.928 ms .. 8.320 ms)
+std dev              511.6 μs   (242.8 μs .. 847.0 μs)
+variance introduced by outliers: 35% (moderately inflated)
+                 
+Benchmark criterion-benchmarks: FINISH
+```

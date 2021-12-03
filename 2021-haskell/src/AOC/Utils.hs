@@ -1,4 +1,4 @@
-module Lib.Utils where
+module AOC.Utils where
 
 import Data.List (tails, sort, group, minimumBy, maximumBy)
 import Data.Function (on)

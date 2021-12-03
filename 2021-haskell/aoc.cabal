@@ -25,10 +25,33 @@ source-repository head
 
 library
   exposed-modules:
+      AOC.Puzzles
+      AOC.Utils
       Day01
       Day02
       Day03
-      Lib.Utils
+      Day04
+      Day05
+      Day06
+      Day07
+      Day08
+      Day09
+      Day10
+      Day11
+      Day12
+      Day13
+      Day14
+      Day15
+      Day16
+      Day17
+      Day18
+      Day19
+      Day20
+      Day21
+      Day22
+      Day23
+      Day24
+      Day25
   other-modules:
       Paths_aoc
   hs-source-dirs:
@@ -103,3 +126,21 @@ test-suite spec
     , text
   default-language: Haskell2010
   build-tool-depends: hspec-discover:hspec-discover == 2.*
+
+benchmark criterion-benchmarks
+  type: exitcode-stdio-1.0
+  main-is: Main.hs
+  other-modules:
+      Paths_aoc
+  hs-source-dirs:
+      benchmark
+  ghc-options: -O2 -threaded -rtsopts -with-rtsopts=-N
+  build-depends:
+      aoc
+    , base >=4.7 && <5
+    , containers
+    , criterion
+    , filepath
+    , relude
+    , text
+  default-language: Haskell2010

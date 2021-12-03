@@ -13,10 +13,10 @@ solve1 l = bitsToDec mostCommons * bitsToDec (map flipBit mostCommons)
        mostCommons = map (frequent maximumBy) $ transpose l
 
 solve2 :: [[Int]] -> Int
-solve2 l = oxy * co2
+solve2 l = bitsToDec oxy * bitsToDec co2
     where
-        oxy = bitsToDec $ generator (frequent maximumBy) $ transpose l
-        co2 = bitsToDec $ generator (frequent minimumBy) $ transpose l
+        oxy = generator (frequent maximumBy) $ transpose l
+        co2 = generator (frequent minimumBy) $ transpose l
 
 ------------------------------------------------
 

@@ -84,3 +84,16 @@ tests:
     dependencies:
       - hspec
       - aoc
+
+benchmarks:
+  criterion-benchmarks:
+    dependencies:
+      - criterion
+      - aoc
+    ghc-options:
+      - -O2
+      - -threaded
+      - -rtsopts
+      - -with-rtsopts=-N
+    main: Main.hs
+    source-dirs: benchmark
