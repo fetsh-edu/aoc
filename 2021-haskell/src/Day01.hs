@@ -1,7 +1,7 @@
 module Day01 (solve1, solve2, parse) where
 
 parse :: String -> [Int]
-parse = fmap read . lines
+parse = map read . lines
 
 solve1 :: [Int] -> Int
 solve1 = solve 1
