@@ -2,6 +2,7 @@ module Main where
 
 import Day01
 import Day02
+import Day03
 import System.Environment
 import qualified System.FilePath as FP
 import Data.Function
@@ -24,6 +25,8 @@ puzzles =
                , (Puzzle (Day 1) Two, show . Day01.solve2 . Day01.parse)
                , (Puzzle (Day 2) One, show . Day02.solve1 . Day02.parse)
                , (Puzzle (Day 2) Two, show . Day02.solve2 . Day02.parse)
+               , (Puzzle (Day 3) One, show . Day03.solve1 . Day03.parse)
+               , (Puzzle (Day 3) Two, show . Day03.solve2 . Day03.parse)
                ]
 
 
