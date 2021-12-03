@@ -119,7 +119,7 @@ TODO:
 
 ### Флипнуть гамму
 
-Накорячим комплимент:
+Накорячим комплемент:
 ```haskell
 solve1 :: [[Int]] -> Int
 solve1 l = gamma * epsilon
