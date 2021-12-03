@@ -100,15 +100,7 @@ oxygen transposed@(x : _) = mC : oxygen filtered
 > **Oxygen**: If 0 and 1 are equally common, keep values with a 1 in the position being considered.
 > **CO2**: If 0 and 1 are equally common, keep values with a 0 in the position being considered.
 
-Подумал, что надо переписывать компаратор, учитывая их. Увидел потом на реддите, [как чувак это делал](https://www.reddit.com/r/adventofcode/comments/r7r0ff/2021_day_3_solutions/hn1d3gw/):
-```haskell
-comp xs ys
-  | length xs > length ys = GT
-  | length xs < length ys = LT
-  | otherwise = if head xs == '1' then GT else LT
-```
-
-Но решил попробовать ничего не делать, проверил в РЕПЛе, работает как надо:
+Подумал, что надо переписывать компаратор, учитывая их. Но решил попробовать ничего не делать, проверил в РЕПЛе, работает как надо:
 ```haskell
 (maximumBy (compare `on` length) . group . sort) "00001111"
 "1111"
