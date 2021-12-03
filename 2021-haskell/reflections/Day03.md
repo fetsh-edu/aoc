@@ -122,11 +122,9 @@ TODO:
 Накорячим комплемент:
 ```haskell
 solve1 :: [[Int]] -> Int
-solve1 l = gamma * epsilon
+solve1 l = bitsToDec mostCommons * bitsToDec (map flipBit mostCommons)
     where
-       gamma = bitsToDec mcs
-       epsilon = bitsToDec $ map flipBit mcs
-       mcs = map mostCommon $ transpose l
+       mostCommons = map mostCommon $ transpose l
        
 flipBit :: Int -> Int 
 flipBit i | i == 0 = 1
