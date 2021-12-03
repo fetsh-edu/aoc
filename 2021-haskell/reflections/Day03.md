@@ -79,7 +79,7 @@ solve1 l = gamma * epsilon
 ```
 
 TODO:
-- Либо собирать и гамму, и эпсилон вместе, либо попробовать эффективно флипнуть гамму.  
+- [X] Либо собирать и гамму, и эпсилон вместе, либо попробовать эффективно флипнуть гамму.
 
 ## Part Two
 
@@ -114,3 +114,23 @@ oxygen transposed@(x : _) = mC : oxygen filtered
 TODO: 
 - вторую задачу бы полностью переписать вместо "кручу-верчу-обмнауть хочу"
 - прикрутить бенчмарки ко всей программе 
+
+## Рефактор
+
+### Флипнуть гамму
+
+Накорячим комплимент:
+```haskell
+solve1 :: [[Int]] -> Int
+solve1 l = gamma * epsilon
+    where
+       gamma = bitsToDec mcs
+       epsilon = bitsToDec $ map flipBit mcs
+       mcs = map mostCommon $ transpose l
+       
+flipBit :: Int -> Int 
+flipBit i | i == 0 = 1
+          | i == 1 = 0
+          | otherwise = error (show i ++ " is not a bit")    
+```
+Можно, наверное, ввести `data Bit = Zero | One` вместо `Int`
