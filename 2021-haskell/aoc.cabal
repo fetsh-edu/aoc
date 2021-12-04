@@ -88,7 +88,9 @@ library
       base >=4.7 && <5
     , containers
     , filepath
+    , matrix
     , relude
+    , split
     , text
   default-language: Haskell2010
 
@@ -102,7 +104,9 @@ executable aoc-exe
     , base >=4.7 && <5
     , containers
     , filepath
+    , matrix
     , relude
+    , split
     , text
   default-language: Haskell2010
 
@@ -123,7 +127,9 @@ test-suite spec
     , containers
     , filepath
     , hspec
+    , matrix
     , relude
+    , split
     , text
   default-language: Haskell2010
   build-tool-depends: hspec-discover:hspec-discover == 2.*
@@ -142,6 +148,8 @@ benchmark criterion-benchmarks
     , containers
     , criterion
     , filepath
+    , matrix
     , relude
+    , split
     , text
   default-language: Haskell2010

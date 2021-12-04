@@ -25,6 +25,8 @@ dependencies:
 - relude
 - filepath
 - containers
+- matrix
+- split
 
 library:
   source-dirs: src
