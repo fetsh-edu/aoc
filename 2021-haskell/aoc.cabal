@@ -118,6 +118,7 @@ test-suite spec
       Day02Spec
       Day03Spec
       Day04Spec
+      Day05Spec
       Paths_aoc
   hs-source-dirs:
       test
