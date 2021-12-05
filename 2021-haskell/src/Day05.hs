@@ -13,7 +13,5 @@ solve1 :: [Line] -> Int
 solve1 = solve2 . filter (\((x1, y1), (x2, y2)) -> x1 == x2 || y1 == y2) 
 
 solve2 :: [Line] -> Int
-solve2 = length . filter (> 1) . map length
-            . group . sort . concatMap (\((x1, y1), (x2, y2)) -> 
-                zip (range x1 x2) (range y1 y2)
-            )
+solve2 = length . filter (> 1) . map length . group . sort
+            . concatMap (\((x1, y1), (x2, y2)) -> zip (range x1 x2) (range y1 y2))
