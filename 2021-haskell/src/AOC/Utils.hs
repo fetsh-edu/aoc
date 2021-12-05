@@ -3,6 +3,13 @@ module AOC.Utils where
 import Data.List (tails, sort, group, minimumBy, maximumBy)
 import Data.Function (on)
 
+range :: (Num a, Enum a) => a -> a -> [a]
+range x y = [x, (x - signum (x - y))..y]
+
+range' :: (Eq a, Num a, Enum a) => a -> a -> [a]
+range' x y | x == y = [x..y]
+           | otherwise = [x, (x - signum (x - y))..y]
+
 slides :: Int -> [a] -> [[a]]
 slides n = slidesWith n (:) []
 
