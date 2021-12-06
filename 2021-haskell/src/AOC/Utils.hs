@@ -4,6 +4,10 @@ import Data.List (tails, sort, group, minimumBy, maximumBy)
 import Data.Function (on)
 import qualified Data.List.Split as DLS 
 
+loop :: (Eq t1, Num t1) => t1 -> (t2 -> t2) -> t2 -> t2
+loop 0 f el = el
+loop n f el = f (loop (n-1) f el)
+
 splitOn :: Eq a => [a] -> [a] -> ([a], [a])
 splitOn xs xss = (head p, p !! 1) where p = DLS.splitOn xs xss
 

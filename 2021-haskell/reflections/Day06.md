@@ -20,11 +20,11 @@ spawn fishes _ = map age fishes ++ replicate (length $ filter (\(Fish _ d) -> d 
     where age (Fish base days) = Fish base (mod (days - 1) (if days == 0 then 7 else base))
 ```
 
-Попробовал переписать, но все равно считал каждую рыбку:
+Попробовал переписать, все равно считал каждую рыбку, но иначе, нагородил непойми чего, но оно проходило тесты :) Памяти хватило, но не хватило времени, через полтора часа пришлось прервать.
 
 ```haskell
-solve1 :: [Int] -> Int
-solve1 = sum . map (fishesAfter' 256)
+solve2 :: [Int] -> Int
+solve2 = sum . map (fishesAfter' 256)
 
 fishesAfter' :: Int -> Int -> Int
 fishesAfter' days age =
@@ -32,7 +32,7 @@ fishesAfter' days age =
     where children = (7 - age + (days - 1))  `div` 7
 ```
 
-Пришлось нарисовать табличку, чтобы понять, что происходит:
+Нарисовал табличку, чтобы понять, что происходит и как это крутить-вертеть.
 ```
 3,4,3,1,2
 2,3,2,0,1
@@ -60,14 +60,20 @@ fishesAfter' days age =
 
 В результате получилось такое:
 ```haskell
-solve2 :: [Int] -> Int
-solve2 = fishesAfter'' 256
+parse :: String -> [Int]
+parse = map read . splitOn ","
 
-fishesAfter'' :: Int -> [Int] -> Int
-fishesAfter'' days fishes =
-    let
+solve1 :: [Int] -> Int
+solve1 = fishesAfter 80
+
+solve2 :: [Int] -> Int
+solve2 = fishesAfter 256
+
+fishesAfter :: Int -> [Int] -> Int
+fishesAfter days fishes = sum $ M.elems $ loop days spawn fishesCounter
+    where
         fishesCounter = M.fromList $ map (\x -> (head x, length x)) $ L.group $ L.sort fishes
-        spawn' acc = M.fromList
+        spawn acc = M.fromList
             [ (0, M.findWithDefault 0 1 acc)
             , (1, M.findWithDefault 0 2 acc)
             , (2, M.findWithDefault 0 3 acc)
@@ -78,6 +84,22 @@ fishesAfter'' days fishes =
             , (7, M.findWithDefault 0 8 acc)
             , (8, M.findWithDefault 0 0 acc)
             ]
-    in
-      sum $ M.elems $ iterate spawn' fishesCounter !! days
+```
+
+## Benchmarks
+```
+benchmarking Day 6/Puzzle (Day 6) One
+time                 686.8 μs   (672.6 μs .. 705.8 μs)
+                     0.994 R²   (0.988 R² .. 0.999 R²)
+mean                 694.2 μs   (681.0 μs .. 721.0 μs)
+std dev              71.87 μs   (44.88 μs .. 105.0 μs)
+variance introduced by outliers: 76% (severely inflated)
+                 
+benchmarking Day 6/Puzzle (Day 6) Two
+time                 1.069 ms   (1.052 ms .. 1.100 ms)
+                     0.995 R²   (0.989 R² .. 1.000 R²)
+mean                 1.098 ms   (1.071 ms .. 1.153 ms)
+std dev              123.2 μs   (32.16 μs .. 195.8 μs)
+variance introduced by outliers: 77% (severely inflated)
+
 ```
