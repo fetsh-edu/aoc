@@ -10,7 +10,6 @@ data Fish = Fish Int Int deriving (Show)
 
 solve1 :: [Fish] -> Int
 solve1 = length . fishesAfter 80 . map (Fish 7)
----- or: sum . map (fishesAfter' 256)
 
 fishesAfter :: Int -> [Fish] -> [Fish]
 fishesAfter days fishes = foldl spawn fishes [1..days]
