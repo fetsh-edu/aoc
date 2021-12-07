@@ -24,7 +24,7 @@ medianR x =
 
 
 loop :: (Eq t1, Num t1) => t1 -> (t2 -> t2) -> t2 -> t2
-loop 0 f el = el
+loop 0 _ el = el
 loop n f el = f (loop (n-1) f el)
 
 splitOn :: Eq a => [a] -> [a] -> ([a], [a])
