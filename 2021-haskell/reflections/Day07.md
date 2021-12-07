@@ -60,5 +60,37 @@ time                 39.54 ms   (39.48 ms .. 39.64 ms)
                      1.000 R²   (1.000 R² .. 1.000 R²)
 mean                 39.61 ms   (39.53 ms .. 39.87 ms)
 std dev              254.1 μs   (64.30 μs .. 481.3 μs)
+```
 
+
+
+## Финальный код 
+```haskell
+parse :: String -> [Int]
+parse = map read . splitOn ","
+
+solve1 :: [Int] -> Int
+solve1 ints = sum $ map (fuelForPos median) ints
+    where median = sort ints !! (length ints `div` 2)
+          fuelForPos p1 p2 = abs(p1 - p2)
+
+solve2 :: [Int] -> Int
+solve2 ints = minimum $ map (fuelSum ints) [0..(maximum ints)]
+    where fuelSum poss pos = sum $ map (fuelForPos pos) poss
+          fuelForPos p1 p2 = triangular(abs(p1 - p2))
+```
+Вторая часть снова вернулась к 10 ms o_O
+```
+benchmarking Day 7/Puzzle (Day 7) One
+time                 2.443 ms   (2.427 ms .. 2.457 ms)
+                     1.000 R²   (0.999 R² .. 1.000 R²)
+mean                 2.468 ms   (2.454 ms .. 2.503 ms)
+std dev              60.40 μs   (27.43 μs .. 103.9 μs)
+variance introduced by outliers: 11% (moderately inflated)
+                 
+benchmarking Day 7/Puzzle (Day 7) Two
+time                 10.08 ms   (10.03 ms .. 10.13 ms)
+                     1.000 R²   (1.000 R² .. 1.000 R²)
+mean                 10.16 ms   (10.12 ms .. 10.21 ms)
+std dev              124.1 μs   (89.15 μs .. 182.8 μs)
 ```
