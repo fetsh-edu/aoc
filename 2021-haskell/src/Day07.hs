@@ -19,5 +19,4 @@ solve2 = solve (\p1 p2 -> triangular(abs(p1 - p2)))
 
 solve :: (Int -> Int -> Int) -> [Int] -> Int
 solve f poss =
-    minimum ([0..(maximum poss)] & map (\i -> (fuel' i, i))) & fst
-    where fuel' p = poss & map (f p) & sum
+    minimum ([0..(maximum poss)] & map (\p -> sum $ map (f p) poss))
