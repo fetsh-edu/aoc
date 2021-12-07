@@ -4,6 +4,25 @@ import Data.List (tails, sort, group, minimumBy, maximumBy)
 import Data.Function (on)
 import qualified Data.List.Split as DLS 
 
+
+triangular :: Integral a => a -> a
+triangular num = (num * (num + 1)) `div` 2
+
+--median :: Ord a => [a] -> a
+--median x =
+--   if odd n
+--     then sort x !! (n `div` 2)
+--     else sort x !! (n `div` 2 - 1)
+--    where n = length x
+
+medianR :: (Ord a, Fractional a) => [a] -> a
+medianR x =
+   if odd n
+     then sort x !! (n `div` 2)
+     else ((sort x !! (n `div` 2 - 1)) + (sort x !! (n `div` 2))) / 2
+    where n = length x
+
+
 loop :: (Eq t1, Num t1) => t1 -> (t2 -> t2) -> t2 -> t2
 loop 0 f el = el
 loop n f el = f (loop (n-1) f el)
