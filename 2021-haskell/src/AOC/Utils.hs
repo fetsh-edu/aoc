@@ -2,7 +2,7 @@ module AOC.Utils where
 
 import Data.List (tails, sort, group, minimumBy, maximumBy)
 import Data.Function (on)
-import qualified Data.List.Split as DLS 
+import qualified Data.List.Split as DLS
 
 -- | Takes a list of digits, and converts them back into a positive integer.
 unDigits :: Integral n
@@ -39,8 +39,9 @@ loop n f el = f (loop (n-1) f el)
 splitOn :: Eq a => [a] -> [a] -> ([a], [a])
 splitOn xs xss = (head p, p !! 1) where p = DLS.splitOn xs xss
 
-mapTuple :: (a -> b) -> (a, a) -> (b, b)
+mapTuple, both :: (a -> b) -> (a, a) -> (b, b)
 mapTuple f (a1, a2) = (f a1, f a2)
+both = mapTuple
 
 range :: (Num a, Enum a) => a -> a -> [a]
 range x y = [x, (x - signum (x - y))..y]

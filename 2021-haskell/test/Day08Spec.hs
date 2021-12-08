@@ -5,7 +5,7 @@ import Test.Hspec
 
 spec :: Spec
 spec = do
-    describe "Day 8" $ do
+    describe "" $ do
 
       let input = "be cfbegad cbdgef fgaecd cgeb fdcge agebfd fecdb fabcd edb | fdgacbe cefdb cefbgd gcbe\n\
                    \edbfga begcd cbg gc gcadebf fbgde acbgfd abcde gfcbed gfec | fcgedb cgb dgebacf gc\n\
@@ -18,10 +18,8 @@ spec = do
                    \egadfb cdbfeg cegd fecab cgb gbdefca cg fgcdab egfdb bfceg | gbdfcae bgc cg cgb\n\
                    \gcafb gcf dcaebfg ecagb gf abcdeg gaef cafbge fdbac fegbdc | fgae cfgab fg bagce\n"
 
-      it "solves Day 8 Part 1" $ do
+      it "Part 1" $ do
         Day08.solve1 (Day08.parse input) `shouldBe` 26
 
-      it "solves Day 8 Part 2" $ do
+      it "Part 2" $ do
         Day08.solve2 (Day08.parse input) `shouldBe` 61229
-
-
