@@ -1,16 +1,21 @@
 module AOC.Utils where
 
-import Data.List (tails, sort, group, minimumBy, maximumBy, find)
+import Data.List (tails, sort, group, minimumBy, maximumBy)
 import Data.Function (on)
 import qualified Data.List.Split as DLS 
-import Data.Maybe (fromMaybe)
 
+-- | Takes a list of digits, and converts them back into a positive integer.
+unDigits :: Integral n
+    => n   -- ^ The base to use.
+    -> [n] -- ^ The digits of the number in list form.
+    -> n   -- ^ The original number.
+unDigits base = foldl (\ a b -> a * base + b) 0
+
+unDigits10 :: Integral n => [n] -> n
+unDigits10 = unDigits 10
 
 triangular :: Integral a => a -> a
 triangular num = (num * (num + 1)) `div` 2
-
-unsafeFind :: Foldable t => (a -> Bool) -> t a -> a
-unsafeFind p = fromMaybe (error "AAAAAAAAa") . find p
 
 --median :: Ord a => [a] -> a
 --median x =

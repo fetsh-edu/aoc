@@ -40,3 +40,22 @@ parseLine (patterns, digits) = nDigits
                         else error "AAAAAAAAA"
                         ) digits
 ```
+
+Добавляем Map
+
+```haskell
+solveLine :: ([String], [String]) -> [Int]
+solveLine (patterns, digits) = map(patternsMap M.!) digits
+    where
+        d1 = head $ filter (\x -> length x == 2) patterns
+        d7 = head $ filter (\x -> length x == 3) patterns
+        d4 = head $ filter (\x -> length x == 4) patterns
+        d8 = head $ filter (\x -> length x == 7) patterns
+        d9 = head $ filter (\x -> length x == 6 && length (x \\ union d4 d7) == 1) patterns
+        d0 = head $ filter (\x -> length x == 6 && x /= d9 && d1 `isSubsequenceOf` x ) patterns
+        d6 = head $ filter (\x -> length x == 6 && x /= d9 && x /= d0 ) patterns
+        d3 = head $ filter (\x -> length x == 5 && d1 `isSubsequenceOf` x) patterns
+        d5 = head $ filter (\x -> length x == 5 && x /= d3 && null (x \\ d9) ) patterns
+        d2 = head $ filter (\x -> length x == 5 && x /= d3 && x /= d5 ) patterns
+        patternsMap = M.fromList $ zip [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9] [0 .. 9]
+```
