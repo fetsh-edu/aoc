@@ -1,9 +1,7 @@
-module Day08 (solve1, solve2, parse) where
+# AOC 2021 Day 8
 
-import AOC.Utils (splitOn, mapTuple)
-import qualified Data.List as L (sort, union, isSubsequenceOf)
-import Data.List ((\\))
-
+## Код, который решил задачу
+```haskell
 parse :: String -> [([String], [String])]
 parse = map (mapTuple (map L.sort . words) . splitOn " | ") . lines
 
@@ -41,3 +39,4 @@ parseLine (patterns, digits) = nDigits
                         else if ds == two then 2
                         else error "AAAAAAAAA"
                         ) digits
+```

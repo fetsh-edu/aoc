@@ -5,7 +5,7 @@ import Test.Hspec
 
 spec :: Spec
 spec = do
-    describe "Day 6" $ do
+    describe "Day 7" $ do
 
       let input = "16,1,2,0,4,2,7,1,2,14"
 

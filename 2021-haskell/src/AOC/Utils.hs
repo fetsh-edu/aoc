@@ -1,12 +1,16 @@
 module AOC.Utils where
 
-import Data.List (tails, sort, group, minimumBy, maximumBy)
+import Data.List (tails, sort, group, minimumBy, maximumBy, find)
 import Data.Function (on)
 import qualified Data.List.Split as DLS 
+import Data.Maybe (fromMaybe)
 
 
 triangular :: Integral a => a -> a
 triangular num = (num * (num + 1)) `div` 2
+
+unsafeFind :: Foldable t => (a -> Bool) -> t a -> a
+unsafeFind p = fromMaybe (error "AAAAAAAAa") . find p
 
 --median :: Ord a => [a] -> a
 --median x =
