@@ -59,3 +59,22 @@ solveLine (patterns, digits) = map(patternsMap M.!) digits
         d2 = head $ filter (\x -> length x == 5 && x /= d3 && x /= d5 ) patterns
         patternsMap = M.fromList $ zip [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9] [0 .. 9]
 ```
+
+И даже упрощаем немного условия для понимания
+
+```haskell
+solveLine :: ([String], [String]) -> [Int]
+solveLine (patterns, digits) = map(patternsMap M.!) digits
+    where  
+        d1 = head $ filter ((== 2) . length) patterns
+        d7 = head $ filter ((== 3) . length) patterns
+        d4 = head $ filter ((== 4) . length) patterns
+        d8 = head $ filter ((== 7) . length) patterns
+        d9 = head $ filter (\x -> length x == 6 && d4 `isSubsequenceOf` x) patterns
+        d0 = head $ filter (\x -> length x == 6 && x /= d9 && d1 `isSubsequenceOf` x ) patterns
+        d6 = head $ filter (\x -> length x == 6 && x /= d9 && x /= d0 ) patterns
+        d3 = head $ filter (\x -> length x == 5 && d1 `isSubsequenceOf` x) patterns
+        d5 = head $ filter (\x -> length x == 5 && x /= d3 && x `isSubsequenceOf` d9) patterns
+        d2 = head $ filter (\x -> length x == 5 && x /= d3 && x /= d5 ) patterns
+        patternsMap = M.fromList $ zip [d0, d1, d2, d3, d4, d5, d6, d7, d8, d9] [0 .. 9]
+```
