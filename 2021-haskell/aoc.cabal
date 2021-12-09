@@ -27,6 +27,7 @@ library
   exposed-modules:
       AOC.Puzzles
       AOC.Utils
+      AOC.Utils.Matrix
       Day01
       Day02
       Day03

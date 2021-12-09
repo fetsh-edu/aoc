@@ -4,6 +4,15 @@ import Data.List (tails, sort, group, minimumBy, maximumBy)
 import Data.Function (on)
 import qualified Data.List.Split as DLS
 
+neighbors :: Int -> Int -> Int -> Int -> [(Int, Int)]
+neighbors r c = neighbors' r c 0 0
+
+neighbors' :: Int -> Int -> Int -> Int -> Int -> Int -> [(Int, Int)]
+neighbors' r c minR minC maxR maxC =
+    filter
+        (\(a, b) -> a >= minR && a <= maxR && b >= minC && b <= maxC)
+        [(r-1, c), (r + 1, c), (r, c-1), (r, c + 1)]
+
 -- | Takes a list of digits, and converts them back into a positive integer.
 unDigits :: Integral n
     => n   -- ^ The base to use.
