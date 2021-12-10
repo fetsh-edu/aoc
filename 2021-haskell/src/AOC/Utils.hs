@@ -7,11 +7,15 @@ import qualified Data.List.Split as DLS
 middle :: [a] -> a
 middle x = x !! (length x `div` 2)
 
-remove :: String -> String -> String
-remove _ "" = ""
+
+remove :: Eq a => [a] -> [a] -> [a]
+remove _ [] = []
 remove w s@(c:cs)
   | w `isPrefixOf` s = remove w (drop (length w) s)
   | otherwise = c : remove w cs
+
+removeAll :: (Foldable t, Eq a) => t [a] -> [a] -> [a]
+removeAll strings string = foldl (flip remove) string strings  
 
 chunks :: Int -> [a] -> [[a]]
 chunks _ [] = []

@@ -1,12 +1,12 @@
 module Day10 (solve1, solve2, parse) where
 
 import Data.List (isInfixOf, find, sort)
-import AOC.Utils (remove, middle)
+import AOC.Utils (middle, removeAll)
 
 data Line = Corrupted Char | Incomplete String deriving Show
 
 parse :: String -> [Line]
-parse = map (parseLine . removeLegals) . lines
+parse = map (parseLine . compact) . lines
 
 solve1 :: [Line] -> Int
 solve1 lns = sum [ corruptedScore c | Corrupted c <- lns ]
@@ -17,22 +17,17 @@ solve2 lns = middle $ sort [ computeScore i | Incomplete i <- lns ]
 
 --------
 
-legals, illegals :: [String]
-legals = ["<>", "()", "{}", "[]"]
-illegals = [[x,y] | x <- "([{<", y <- ")]}>", [x,y] `notElem` legals]
-
 parseLine :: String -> Line
-parseLine str =
-    case find (`elem` illegals) (zipWith (\x y -> [x,y]) str (tail str)) of
-        Just s -> Corrupted (s !! 1)
-        Nothing -> Incomplete str
+parseLine line =
+    case find (`elem` [')', ']', '}', '>']) line of
+        Just s -> Corrupted s
+        Nothing -> Incomplete line
 
-removeLegals :: String -> String
-removeLegals str =
-    if any (`isInfixOf` str) legals then
-        removeLegals $ foldl (flip remove) str legals
-    else
-        str
+compact :: String -> String
+compact str
+    | any (`isInfixOf` str) legals = compact (removeAll legals str)
+    | otherwise = str
+    where legals = ["<>", "()", "{}", "[]"]
 
 corruptedScore :: Char -> Int
 corruptedScore ')' = 3
