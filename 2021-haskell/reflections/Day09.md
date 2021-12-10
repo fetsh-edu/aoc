@@ -1,11 +1,7 @@
-module Day09 (solve1, solve2, parse) where
+# AOC 2021 Day 8
 
-import Data.Char
-import Data.List (sort)
-import qualified AOC.Utils.Matrix as M (neighbors)
-import qualified Data.Set as Set
-import qualified Data.Matrix as M
-
+## Код, который решил задачу
+```haskell
 parse :: String -> [[Int]]
 parse = map (map digitToInt) . lines
 
@@ -27,7 +23,6 @@ infoPoint matrix (r, c) a = (((r, c), a), isLow)
     
 lowPoints :: M.Matrix Int -> [((Int, Int), Int)]
 lowPoints matrix =
-    
     map fst $ filter snd $ M.toList $ M.mapPos (infoPoint matrix) matrix
 
 getBasin :: M.Matrix Int -> Set.Set (Int, Int) -> (Int, Int) -> Set.Set (Int, Int)
@@ -37,3 +32,4 @@ getBasin matrix set point@(r,c) =
        newSet = Set.insert point set
        allNeighbors = M.neighbors r c (M.nrows matrix) (M.ncols matrix)
        inBasin p = matrix M.! p /= 9 && Set.notMember p newSet
+```

@@ -1,8 +1,23 @@
 module AOC.Utils where
 
-import Data.List (tails, sort, group, minimumBy, maximumBy)
+import Data.List (tails, sort, group, minimumBy, maximumBy, isPrefixOf)
 import Data.Function (on)
 import qualified Data.List.Split as DLS
+
+middle :: [a] -> a
+middle x = x !! (length x `div` 2)
+
+remove :: String -> String -> String
+remove _ "" = ""
+remove w s@(c:cs)
+  | w `isPrefixOf` s = remove w (drop (length w) s)
+  | otherwise = c : remove w cs
+
+chunks :: Int -> [a] -> [[a]]
+chunks _ [] = []
+chunks n xs =
+    let (ys, zs) = splitAt n xs
+    in  ys : chunks n zs
 
 neighbors :: Int -> Int -> Int -> Int -> [(Int, Int)]
 neighbors r c = neighbors' r c 0 0

@@ -7,10 +7,19 @@ spec :: Spec
 spec = do
     describe "" $ do
 
-      let input = "3,4,3,1,2"
+      let input = "[({(<(())[]>[[{[]{<()<>>\n\
+                   \[(()[<>])]({[<{<<[]>>(\n\
+                   \{([(<{}[<>[]}>{[]{[(<()>\n\
+                   \(((({<>}<{<{<>}{[]{[]{}\n\
+                   \[[<[([]))<([[{}[[()]]]\n\
+                   \[{[{({}]{}}([{[{{{}}([]\n\
+                   \{<[[]]>}<{[{[{[]{()[[[]\n\
+                   \[<(<(<(<{}))><([]([]()\n\
+                   \<{([([[(<>()){}]>(<<{{\n\
+                   \<{([{{}}[<[[[<>{}]]]>[]]\n"
 
       it "Part 1" $ do
-        Day10.solve1 (Day10.parse input) `shouldBe` 5934
+        Day10.solve1 (Day10.parse input) `shouldBe` 26397
     
       it "Part 2" $ do
-        Day10.solve2 (Day10.parse input) `shouldBe` 26984457539
+        Day10.solve2 (Day10.parse input) `shouldBe` 288957
