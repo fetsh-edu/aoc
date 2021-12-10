@@ -7,6 +7,11 @@ import qualified Data.List.Split as DLS
 middle :: [a] -> a
 middle x = x !! (length x `div` 2)
 
+lookup'                  :: (Eq a) => a -> [(a,b)] -> b
+lookup' _key []          =  error "Nothing found"
+lookup'  key ((x,y):xys)
+    | key == x          = y
+    | otherwise         =  lookup' key xys
 
 remove :: Eq a => [a] -> [a] -> [a]
 remove _ [] = []
