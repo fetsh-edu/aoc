@@ -19,10 +19,9 @@ type Point = (Int, Int)
 type Array = M.Map Point Int
 
 step :: (Array, Int) -> (Array, Int)
-step (matrix, _) = (matrix'', length flashed)
-    where initStep = fmap succ matrix
-          (matrix', flashed) = flash initStep []
-          matrix'' = fmap (\v -> if v > 9 then 0 else v) matrix'
+step (matrix, _) = (fmap cap matrix', length flashed)
+    where (matrix', flashed) = flash (fmap succ matrix) []
+          cap v = if v > 9 then 0 else v
 
 
 flash :: Array -> [Point] -> (Array, [Point])
