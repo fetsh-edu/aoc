@@ -19,8 +19,8 @@ remove w s@(c:cs)
   | w `isPrefixOf` s = remove w (drop (length w) s)
   | otherwise = c : remove w cs
 
-removeAll :: (Foldable t, Eq a) => t [a] -> [a] -> [a]
-removeAll strings string = foldl (flip remove) string strings  
+removeAll :: (Foldable t, Eq a) => [a] -> t [a] -> [a]
+removeAll = foldr remove
 
 chunks :: Int -> [a] -> [[a]]
 chunks _ [] = []

@@ -24,10 +24,10 @@ infoPoint :: Ord a => M.Matrix a -> (Int, Int) -> a -> (((Int, Int), a), Bool)
 infoPoint matrix (r, c) a = (((r, c), a), isLow)
     where isLow = all ((> a) . (matrix M.!)) neighbors'
           neighbors' = M.neighbors r c (M.nrows matrix) (M.ncols matrix)
-    
+
 lowPoints :: M.Matrix Int -> [((Int, Int), Int)]
 lowPoints matrix =
-    
+
     map fst $ filter snd $ M.toList $ M.mapPos (infoPoint matrix) matrix
 
 getBasin :: M.Matrix Int -> Set.Set (Int, Int) -> (Int, Int) -> Set.Set (Int, Int)

@@ -31,6 +31,6 @@ parseLine line =
 
 compact :: String -> String
 compact str
-    | any (`isInfixOf` str) legals = compact (removeAll legals str)
+    | any (`isInfixOf` str) legals = compact (str `removeAll` legals)
     | otherwise = str
     where legals = zipWith (\x y -> [x,y]) open close
