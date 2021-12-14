@@ -3,8 +3,6 @@
 First take which solves part one but fails on part two obviously. 
 
 ```haskell
-module Day14 (solve1, solve2, parse) where
-
 import qualified Data.Map as M
 import AOC.Utils (splitOn, mostCommon', leastCommon', slidesWith, slides, loop)
 
@@ -56,12 +54,12 @@ solve2 (counter, rules) = solve 40 counter rules
 
 solve :: Int -> Counter -> Rules -> Integer
 solve i cnt rules = mostCommon - leastCommon
-    where cnt' = M.fromListWith (+)
-                    $ map (\([f, s], c) -> (s, c))
-                    $ M.toList
-                    $ loop i (grow rules) cnt
+    where cnt' = compact $ loop i (grow rules) cnt
           mostCommon = maximum $ M.elems cnt'
           leastCommon = minimum $ M.elems cnt'
+
+compact :: Counter -> M.Map Char Integer
+compact = M.fromListWith (+) . map (\([f, s], c) -> (s, c)) . M.toList
 
 grow :: Rules -> Counter -> Counter
 grow rules cnt = M.fromListWith (+) $ concatMap grow' $ M.toList cnt
@@ -69,3 +67,5 @@ grow rules cnt = M.fromListWith (+) $ concatMap grow' $ M.toList cnt
                            Just some -> map (,c) some
                            Nothing -> [(str, c)]
 ```
+
+Транзишн от первой части ко второй был ужасен. Не хватило всего: понимания алгоритма, внимательности. Так, например, из-за того, что в тестовом инпуте в темплейте нет повторений пар, а в настоящем есть, то тесты проходили упешно для обеих частей, а задача не решалась. Потому что вместо Map.fromListWith (+) делал Map.fromList еще на этапе парсинга. Вернул первый код, обтрейсился поуши.

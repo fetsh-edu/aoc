@@ -1,4 +1,4 @@
-module Day14 where
+module Day14 (solve1, solve2, parse) where
 
 import qualified Data.Map as M
 import AOC.Utils (splitOn, loop)
@@ -23,12 +23,12 @@ solve2 (counter, rules) = solve 40 counter rules
 
 solve :: Int -> Counter -> Rules -> Integer
 solve i cnt rules = mostCommon - leastCommon
-    where cnt' = M.fromListWith (+)
-                    $ map (\([f, s], c) -> (s, c))
-                    $ M.toList
-                    $ loop i (grow rules) cnt
+    where cnt' = compact $ loop i (grow rules) cnt
           mostCommon = maximum $ M.elems cnt'
           leastCommon = minimum $ M.elems cnt'
+
+compact :: Counter -> M.Map Char Integer
+compact = M.fromListWith (+) . map (\([f, s], c) -> (s, c)) . M.toList
 
 grow :: Rules -> Counter -> Counter
 grow rules cnt = M.fromListWith (+) $ concatMap grow' $ M.toList cnt
