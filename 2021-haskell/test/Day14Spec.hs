@@ -5,12 +5,29 @@ import Test.Hspec
 
 spec :: Spec
 spec = do
-    describe "Day 6" $ do
+    describe "" $ do
 
-      let input = "3,4,3,1,2"
+      let input = "NNCB\n\
+                   \\n\
+                   \CH -> B\n\
+                   \HH -> N\n\
+                   \CB -> H\n\
+                   \NH -> C\n\
+                   \HB -> C\n\
+                   \HC -> B\n\
+                   \HN -> C\n\
+                   \NN -> C\n\
+                   \BH -> H\n\
+                   \NC -> B\n\
+                   \NB -> B\n\
+                   \BN -> B\n\
+                   \BB -> N\n\
+                   \BC -> B\n\
+                   \CC -> N\n\
+                   \CN -> C\n"
 
-      it "solves Day 6 Part 1" $ do
-        Day14.solve1 (Day14.parse input) `shouldBe` 5934
+      it "Part 1" $ do
+        Day14.solve1 (Day14.parse input) `shouldBe` 1588
     
-      it "solves Day 6 Part 2" $ do
-        Day14.solve2 (Day14.parse input) `shouldBe` 26984457539
+      it "Part 2" $ do
+        Day14.solve2 (Day14.parse input) `shouldBe` 2188189693529

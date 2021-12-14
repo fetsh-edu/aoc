@@ -93,10 +93,16 @@ bitsToDec :: (Foldable t, Num a) => t a -> a
 bitsToDec = foldl (\acc x -> acc * 2 + x) 0
 
 mostCommon :: (Ord a) => [a] -> a
-mostCommon = frequent maximumBy
+mostCommon = head . mostCommon'
 
 leastCommon :: (Ord a) => [a] -> a
-leastCommon = frequent minimumBy
+leastCommon = head . leastCommon'
 
-frequent :: (Ord a, Foldable t) => ((t a1 -> t a1 -> Ordering) -> [[a]] -> [c]) -> [a] -> c
-frequent f = head . f (compare `on` length) . group . sort
+mostCommon' :: (Ord a) => [a] -> [a]
+mostCommon' = frequent maximumBy
+
+leastCommon' :: (Ord a) => [a] -> [a]
+leastCommon' = frequent minimumBy
+
+frequent :: (Ord a, Foldable t) => ((t a1 -> t a1 -> Ordering) -> [[a]] -> [c]) -> [a] -> [c]
+frequent f = f (compare `on` length) . group . sort

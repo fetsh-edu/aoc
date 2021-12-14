@@ -1,3 +1,8 @@
+# AOC 2021 Day 14
+
+First take which solves part one but fails on part two obviously. 
+
+```haskell
 module Day14 (solve1, solve2, parse) where
 
 import qualified Data.Map as M
@@ -30,3 +35,4 @@ solve2 (template, rules) = mostCommon - leasCommon
 grow :: Rules -> Template -> String
 grow rules (f:s:[]) = [f, rules M.! [f,s], s]
 grow rules (f:s:rest) = [f, rules M.! [f,s]] ++ grow rules (s:rest)
+```
