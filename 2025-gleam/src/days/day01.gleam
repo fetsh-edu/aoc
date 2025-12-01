@@ -2,6 +2,7 @@ import gleam/int
 import gleam/list
 import gleam/result
 import utils/input
+import utils/result as r
 
 const dial_size = 100
 
@@ -42,17 +43,16 @@ pub fn parse_rotations(input: String) -> List(Int) {
 }
 
 fn parse_rotation(input: String) -> Int {
-  let assert Ok(n) = case input {
+  case input {
     "L" <> rest -> int.parse("-" <> rest)
     "R" <> rest -> int.parse(rest)
     _ -> panic as { "Invalid rotation: " <> input }
   }
-  n
+  |> r.assert_ok
 }
 
 fn rotate(init: Int, rotation: Int) -> Int {
-  let assert Ok(a) = int.modulo(init + rotation, dial_size)
-  a
+  int.modulo(init + rotation, dial_size) |> r.assert_ok
 }
 
 fn count_zero_crossings(init: Int, rotation: Int) -> Int {
