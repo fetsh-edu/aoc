@@ -34,19 +34,16 @@ pub fn solve_part2(rotations: List(Int)) -> Int {
 pub fn parse_rotations(input: String) -> List(Int) {
   input
   |> input.non_empty_lines
-  |> list.map(fn(line) {
-    let assert Ok(delta) = parse_rotation(line)
-    delta
-  })
+  |> list.map(parse_rotation)
 }
 
-fn parse_rotation(input: String) -> Result(Int, String) {
-  let num_result = case input {
+fn parse_rotation(input: String) -> Int {
+  let assert Ok(n) = case input {
     "L" <> rest -> int.parse("-" <> rest)
     "R" <> rest -> int.parse(rest)
-    _ -> Error(Nil)
+    _ -> panic as { "Invalid rotation: " <> input }
   }
-  num_result |> result.replace_error("Invalid rotation: " <> input)
+  n
 }
 
 fn rotate(init: Int, rotation: Int) -> Int {
