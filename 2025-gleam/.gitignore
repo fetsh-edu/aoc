@@ -1,0 +1,22 @@
+*.beam
+*.ez
+build
+erl_crash.dump
+
+# Gleam
+/build
+manifest.toml
+
+# AOC
+inputs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
