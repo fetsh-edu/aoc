@@ -3,6 +3,10 @@ import gleam/list
 import gleam/result
 import utils/input
 
+const dial_size = 100
+
+const start_pos = 50
+
 pub fn solve() -> Result(#(String, String), String) {
   use input <- result.try(input.read_input(1))
 
@@ -16,13 +20,13 @@ pub fn solve() -> Result(#(String, String), String) {
 
 pub fn solve_part1(rotations: List(Int)) -> Int {
   rotations
-  |> list.scan(from: 50, with: rotate)
+  |> list.scan(from: start_pos, with: rotate)
   |> list.count(fn(n) { n == 0 })
 }
 
 pub fn solve_part2(rotations: List(Int)) -> Int {
   rotations
-  |> list.fold(from: #(50, 0), with: fn(acc, rotation) {
+  |> list.fold(from: #(start_pos, 0), with: fn(acc, rotation) {
     let #(current_position, total_crossings) = acc
     let new_position = rotate(current_position, rotation)
     let crossings = count_zero_crossings(current_position, rotation)
@@ -47,20 +51,21 @@ fn parse_rotation(input: String) -> Int {
 }
 
 fn rotate(init: Int, rotation: Int) -> Int {
-  { { { init + rotation } % 100 + 100 } % 100 }
+  let assert Ok(a) = int.modulo(init + rotation, dial_size)
+  a
 }
 
 fn count_zero_crossings(init: Int, rotation: Int) -> Int {
   let distance = int.absolute_value(rotation)
 
   let first = case init, rotation >= 0 {
-    0, _ -> 100
-    _, True -> 100 - init
+    0, _ -> dial_size
+    _, True -> dial_size - init
     _, False -> init
   }
 
   case distance >= first {
-    True -> 1 + { distance - first } / 100
+    True -> 1 + { distance - first } / dial_size
     False -> 0
   }
 }
