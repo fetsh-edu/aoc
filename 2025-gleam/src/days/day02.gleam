@@ -1,3 +1,4 @@
+import gleam/bool
 import gleam/int
 import gleam/list
 import gleam/result
@@ -44,27 +45,19 @@ fn parse_range(input: String) -> List(Int) {
 fn is_invalid(id: Int) -> Bool {
   let string = int.to_string(id)
   let length = string.length(string)
-  case length % 2 {
-    0 -> {
-      let half = length / 2
-      let first = string.slice(string, 0, half)
-      let second = string.slice(string, half, half)
-      first == second
-    }
-    _ -> False
-  }
+  use <- bool.guard(when: length |> int.is_odd, return: False)
+  let half = length / 2
+  let first = string.slice(string, 0, half)
+  let second = string.slice(string, half, half)
+  first == second
 }
 
 fn is_invalid2(id: Int) -> Bool {
   let string = int.to_string(id)
   let length = string.length(string)
-  case length < 2 {
-    True -> False
-    False -> {
-      let doubled = string <> string
-      let doubled_length = string.length(doubled)
-      let double_clipped = string.slice(doubled, 1, doubled_length - 2)
-      string.contains(double_clipped, string)
-    }
-  }
+  use <- bool.guard(when: length < 2, return: False)
+  let doubled = string <> string
+  let doubled_length = string.length(doubled)
+  let double_clipped = string.slice(doubled, 1, doubled_length - 2)
+  string.contains(double_clipped, string)
 }
