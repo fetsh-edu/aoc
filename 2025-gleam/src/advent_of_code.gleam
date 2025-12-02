@@ -35,8 +35,6 @@ fn run_day(day_str: String) {
 fn solve_day(day: Int) -> Result(#(String, String), String) {
   case day {
     1 -> day01.solve()
-    // 2 -> day02.solve()
-    // 3 -> day03.solve()
     _ -> Error("Day " <> int.to_string(day) <> " not implemented yet")
   }
 }
