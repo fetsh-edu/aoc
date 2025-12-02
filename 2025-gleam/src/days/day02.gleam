@@ -4,42 +4,41 @@ import gleam/list
 import gleam/result
 import gleam/string
 import utils/input
-import utils/result as r
 
 pub fn solve() -> Result(#(String, String), String) {
   use input <- result.try(input.read_input(2))
 
-  let part1 = solve_part1(input)
-  let part2 = solve_part2(input)
+  let ranges = prepare_input(input)
+  let part1 = solve_part1(ranges)
+  let part2 = solve_part2(ranges)
 
   Ok(#(int.to_string(part1), int.to_string(part2)))
 }
 
-pub fn solve_part1(input: String) -> Int {
+pub fn prepare_input(input: String) -> List(Int) {
   input
   |> string.trim
   |> string.split(",")
   |> list.flat_map(parse_range)
+}
+
+pub fn solve_part1(input: List(Int)) -> Int {
+  input
   |> list.filter(is_invalid)
   |> list.fold(from: 0, with: int.add)
 }
 
-pub fn solve_part2(input: String) -> Int {
+pub fn solve_part2(input: List(Int)) -> Int {
   input
-  |> string.trim
-  |> string.split(",")
-  |> list.flat_map(parse_range)
   |> list.filter(is_invalid2)
   |> list.fold(from: 0, with: int.add)
 }
 
 fn parse_range(input: String) -> List(Int) {
-  case string.split(input, on: "-") {
-    [first, second] ->
-      r.map2(int.parse(first), int.parse(second), fn(a, b) { list.range(a, b) })
-    _ -> Error(Nil)
-  }
-  |> r.assert_ok
+  let assert [first, second] = string.split(input, on: "-")
+  let assert Ok(a) = int.parse(first)
+  let assert Ok(b) = int.parse(second)
+  list.range(a, b)
 }
 
 fn is_invalid(id: Int) -> Bool {
