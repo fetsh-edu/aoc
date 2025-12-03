@@ -76,10 +76,16 @@ import utils/input
 pub fn solve() -> Result(#(String, String), String) {
   use input <- result.try(input.read_input(DAY_NUM))
 
-  let part1 = solve_part1(input)
-  let part2 = solve_part2(input)
+  let input_prepared = prepare_input(input)
+
+  let part1 = solve_part1(input_prepared)
+  let part2 = solve_part2(input_prepared)
 
   Ok(#(int.to_string(part1), int.to_string(part2)))
+}
+
+pub fn prepare_input(input: String) -> String {
+  input
 }
 
 pub fn solve_part1(input: String) -> Int {
@@ -104,6 +110,7 @@ pub fn part1_test() {
   let assert Ok(input) = input.read_test_input(DAY_NUM)
 
   input
+  |> dayDAY_PADDED.prepare_input
   |> dayDAY_PADDED.solve_part1
   |> should.equal(42)
 }
@@ -112,6 +119,7 @@ pub fn part2_test() {
   let assert Ok(input) = input.read_test_input(DAY_NUM)
 
   input
+  |> dayDAY_PADDED.prepare_input
   |> dayDAY_PADDED.solve_part2
   |> should.equal(100)
 }
