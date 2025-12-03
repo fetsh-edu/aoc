@@ -17,40 +17,37 @@ pub fn solve() -> Result(#(String, String), String) {
   Ok(#(int.to_string(part1), int.to_string(part2)))
 }
 
-pub fn prepare_input(input: String) -> List(List(Int)) {
+pub fn prepare_input(input: String) -> List(List(String)) {
   input
   |> string.trim
   |> string.split("\n")
-  |> list.map(fn(bank) {
-    bank |> string.to_graphemes |> list.map(i.parse_assert)
-  })
+  |> list.map(string.to_graphemes)
 }
 
-pub fn solve_part1(batteries: List(List(Int))) -> Int {
+pub fn solve_part1(batteries: List(List(String))) -> Int {
   batteries
   |> list.map(fn(battery) { max_joltage(battery, 2) })
   |> list.fold(0, int.add)
 }
 
-pub fn solve_part2(batteries: List(List(Int))) -> Int {
+pub fn solve_part2(batteries: List(List(String))) -> Int {
   batteries
   |> list.map(fn(battery) { max_joltage(battery, 12) })
   |> list.fold(0, int.add)
 }
 
-fn max_joltage(battery: List(Int), target: Int) -> Int {
+fn max_joltage(battery: List(String), target: Int) -> Int {
   battery
   |> get_highest_loop([], target)
-  |> list.map(int.to_string)
   |> string.join("")
   |> i.parse_assert
 }
 
 fn get_highest_loop(
-  rest: List(Int),
-  chosen: List(Int),
+  rest: List(String),
+  chosen: List(String),
   target: Int,
-) -> List(Int) {
+) -> List(String) {
   let chosen_length = list.length(chosen)
   use <- bool.guard(when: chosen_length == target, return: chosen)
   let rest_length = list.length(rest)
@@ -58,7 +55,7 @@ fn get_highest_loop(
     rest
     |> list.take(rest_length - { target - chosen_length - 1 })
     |> list.index_map(fn(x, i) { #(i, x) })
-    |> list.max(fn(x, y) { int.compare(x.1, y.1) })
+    |> list.max(fn(x, y) { string.compare(x.1, y.1) })
 
   get_highest_loop(
     list.drop(rest, index + 1),
