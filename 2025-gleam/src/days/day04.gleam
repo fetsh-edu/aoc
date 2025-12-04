@@ -3,7 +3,7 @@ import gleam/int
 import gleam/list
 import gleam/result
 import gleam/string
-import utils/grid
+import utils/grid.{type Grid, Grid}
 import utils/input
 
 pub fn solve() -> Result(#(String, String), String) {
@@ -17,7 +17,7 @@ pub fn solve() -> Result(#(String, String), String) {
   Ok(#(int.to_string(part1), int.to_string(part2)))
 }
 
-pub fn prepare_input(input: String) -> grid.Grid(String) {
+pub fn prepare_input(input: String) -> Grid(String) {
   input
   |> string.trim()
   |> string.split("\n")
@@ -25,23 +25,22 @@ pub fn prepare_input(input: String) -> grid.Grid(String) {
   |> grid.from_rows_where(fn(cell) { cell == "@" })
 }
 
-pub fn solve_part1(grid: grid.Grid(String)) -> Int {
+pub fn solve_part1(grid: Grid(String)) -> Int {
   grid |> grid.count_keys(where: grid.has_fewer_neighbours8(grid, _, 4))
 }
 
-pub fn solve_part2(grid: grid.Grid(String)) -> Int {
+pub fn solve_part2(grid: Grid(String)) -> Int {
   clean(grid, 0)
 }
 
-pub fn clean(grid: grid.Grid(String), removed: Int) -> Int {
+pub fn clean(grid: Grid(String), removed: Int) -> Int {
   let #(can_be_removed, remaining) =
     grid.partition(grid, fn(pos, _) { grid.has_fewer_neighbours8(grid, pos, 4) })
 
   case dict.size(can_be_removed) {
     0 -> removed
     n -> {
-      grid.Grid(remaining)
-      |> clean(removed + n)
+      clean(Grid(remaining), removed + n)
     }
   }
 }
