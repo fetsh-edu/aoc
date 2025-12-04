@@ -58,8 +58,16 @@ pub fn count_keys(
   dict.keys(grid.cells) |> list.count(predicate)
 }
 
-pub fn partition(grid: Grid(a), predicate: fn(#(Int, Int), a) -> Bool) {
-  grid.cells |> d.partition(predicate)
+pub fn partition(
+  grid: Grid(a),
+  predicate: fn(#(Int, Int), a) -> Bool,
+) -> #(Grid(a), Grid(a)) {
+  let #(left, right) = grid.cells |> d.partition(predicate)
+  #(Grid(left), Grid(right))
+}
+
+pub fn size(grid: Grid(a)) -> Int {
+  dict.size(grid.cells)
 }
 // pub fn count_neighbours8_where(
 //   grid: Grid(a),

@@ -37,10 +37,10 @@ pub fn clean(grid: Grid(String), removed: Int) -> Int {
   let #(can_be_removed, remaining) =
     grid.partition(grid, fn(pos, _) { grid.has_fewer_neighbours8(grid, pos, 4) })
 
-  case dict.size(can_be_removed) {
+  case grid.size(can_be_removed) {
     0 -> removed
     n -> {
-      clean(Grid(remaining), removed + n)
+      clean(remaining, removed + n)
     }
   }
 }
