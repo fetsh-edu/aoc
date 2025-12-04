@@ -9,6 +9,7 @@ import FileSystem.Path as Path
 import Init
 import Task
 import Day01
+import Day02
 
 
 main : Node.SimpleProgram a
@@ -95,15 +96,8 @@ runDay fsPermission env day =
 loadDayModule : Int -> Maybe (String -> { part1 : String, part2 : String })
 loadDayModule day =
     when day is
-        1 ->
-            Just Day01.solve
-
-        -- Add more days here as you solve them:
-        -- 2 ->
-        --     Just Day02.solve
-        -- 3 ->
-        --     Just Day03.solve
-
+        1 -> Just Day01.solve
+        2 -> Just Day02.solve
         _ ->
             Nothing
 

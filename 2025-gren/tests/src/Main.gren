@@ -3,6 +3,7 @@ module Main exposing (main)
 import Test exposing (Test, describe)
 import Test.Runner.Node exposing (Program, run)
 import Test.Day01 as TD1
+import Test.Day02 as TD2
 
 
 main : Program
@@ -14,4 +15,5 @@ suite : Test
 suite =
     describe "Advent of Code 2025"
         [ TD1.tests
+        , TD2.tests
         ]
