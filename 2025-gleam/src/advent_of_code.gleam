@@ -2,6 +2,7 @@ import argv
 import days/day01
 import days/day02
 import days/day03
+import days/day04
 import gleam/int
 import gleam/io
 import gleam/string
@@ -39,6 +40,7 @@ fn solve_day(day: Int) -> Result(#(String, String), String) {
     1 -> day01.solve()
     2 -> day02.solve()
     3 -> day03.solve()
+    4 -> day04.solve()
     _ -> Error("Day " <> int.to_string(day) <> " not implemented yet")
   }
 }
