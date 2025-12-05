@@ -1,9 +1,8 @@
-import gleam/dict
 import gleam/int
 import gleam/list
 import gleam/result
 import gleam/string
-import utils/grid.{type Grid, Grid}
+import utils/grid.{type Grid}
 import utils/input
 
 pub fn solve() -> Result(#(String, String), String) {
