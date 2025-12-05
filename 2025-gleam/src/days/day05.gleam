@@ -41,8 +41,7 @@ pub fn solve_part1(input: #(List(Range), List(Int))) -> Int {
 }
 
 pub fn solve_part2(input: #(List(Range), List(Int))) -> Int {
-  let #(ranges, _ids) = input
-  ranges |> list.sort(by: range.compare) |> merge_and_count(0, None)
+  input.0 |> list.sort(by: range.compare) |> merge_and_count(0, None)
 }
 
 fn merge_and_count(
