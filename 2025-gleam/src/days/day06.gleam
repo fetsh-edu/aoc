@@ -23,6 +23,9 @@ pub type Op {
   Multiply
 }
 
+pub type Problem =
+  #(Op, List(Int))
+
 pub fn prepare_input(input: String) -> List(String) {
   input |> string.split("\n") |> list.filter(fn(s) { !string.is_empty(s) })
 }
@@ -41,7 +44,7 @@ pub fn solve_part2(input: List(String)) -> Int {
   |> int.sum
 }
 
-fn to_problems(input: List(String)) -> List(#(Op, List(Int))) {
+fn to_problems(input: List(String)) -> List(Problem) {
   let rows =
     input
     |> list.map(fn(row) {
@@ -60,17 +63,13 @@ fn to_problems(input: List(String)) -> List(#(Op, List(Int))) {
     |> list.take(list.length(rows) - 1)
     |> list.fold(list.repeat([], list.length(operators)), fn(acc_cols, row) {
       l.zip_with(row, acc_cols, fn(tok, col_nums) {
-        let assert Ok(n) = int.parse(tok)
-        [n, ..col_nums]
+        [i.parse_assert(tok), ..col_nums]
       })
     })
     |> list.map(list.reverse)
 
   list.zip(operators, operands)
 }
-
-pub type Problem =
-  #(Op, List(Int))
 
 fn to_problems2(
   rows: List(String),
@@ -123,7 +122,7 @@ fn parse_operator(s: String) -> Op {
   }
 }
 
-fn compute_problem(problem: #(Op, List(Int))) -> Int {
+fn compute_problem(problem: Problem) -> Int {
   let #(operator, numbers) = problem
   case operator {
     Add -> numbers |> int.sum
