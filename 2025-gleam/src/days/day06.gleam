@@ -29,15 +29,14 @@ pub fn prepare_input(input: String) -> List(String) {
 
 pub fn solve_part1(input: List(String)) -> Int {
   input
-  |> list.filter(fn(s) { !{ string.trim(s) |> string.is_empty } })
   |> to_problems
   |> list.map(compute_problem)
   |> int.sum
 }
 
 pub fn solve_part2(input: List(String)) -> Int {
-  let assert [row1, row2, row3, row4, op_row] = input
-  to_problems4(row1, row2, row3, row4, op_row, None, [], [])
+  input
+  |> to_problems2(None, [], [])
   |> list.map(compute_problem)
   |> int.sum
 }
@@ -70,70 +69,49 @@ fn to_problems(input: List(String)) -> List(#(Op, List(Int))) {
   list.zip(operators, operands)
 }
 
-fn to_problems4(
-  row1: String,
-  row2: String,
-  row3: String,
-  row4: String,
-  op_row: String,
+pub type Problem =
+  #(Op, List(Int))
+
+fn to_problems2(
+  rows: List(String),
   current_operator: Option(Op),
   current_nums: List(Int),
-  problems: List(#(Op, List(Int))),
-) -> List(#(Op, List(Int))) {
-  case
-    string.pop_grapheme(row1),
-    string.pop_grapheme(row2),
-    string.pop_grapheme(row3),
-    string.pop_grapheme(row4),
-    string.pop_grapheme(op_row)
-  {
-    // At the end
-    Error(_), Error(_), Error(_), Error(_), Error(_) -> {
+  problems: List(Problem),
+) -> List(Problem) {
+  let popped_result =
+    rows |> list.map(string.pop_grapheme) |> list.try_map(fn(x) { x })
+  case popped_result {
+    Error(_) -> {
       let assert Some(op) = current_operator
       [#(op, current_nums), ..problems]
     }
+    Ok(popped) -> {
+      let #(heads, rests) = list.unzip(popped)
+      case heads |> list.all(fn(p) { p == " " }) {
+        True -> {
+          let assert Some(op) = current_operator
+          to_problems2(rests, None, [], [#(op, current_nums), ..problems])
+        }
+        False -> {
+          let digits =
+            heads
+            |> list.take(list.length(heads) - 1)
+            |> string.join("")
+            |> string.trim()
+            |> i.parse_assert
 
-    // Empty column
-    Ok(#(" ", rest1)),
-      Ok(#(" ", rest2)),
-      Ok(#(" ", rest3)),
-      Ok(#(" ", rest4)),
-      Ok(#(" ", rest_ops))
-    -> {
-      let assert Some(op) = current_operator
-      to_problems4(rest1, rest2, rest3, rest4, rest_ops, None, [], [
-        #(op, current_nums),
-        ..problems
-      ])
-    }
-    // Regular column
-    Ok(#(g1, rest1)),
-      Ok(#(g2, rest2)),
-      Ok(#(g3, rest3)),
-      Ok(#(g4, rest4)),
-      Ok(#(gop, rest_ops))
-    -> {
-      let digits =
-        [g1, g2, g3, g4] |> string.join("") |> string.trim() |> i.parse_assert
+          let next_op =
+            current_operator
+            |> option.lazy_or(fn() {
+              list.last(heads)
+              |> result.map(parse_operator)
+              |> option.from_result
+            })
 
-      let next_op = case current_operator {
-        Some(op) -> Some(op)
-        None -> Some(parse_operator(gop))
+          to_problems2(rests, next_op, [digits, ..current_nums], problems)
+        }
       }
-
-      to_problems4(
-        rest1,
-        rest2,
-        rest3,
-        rest4,
-        rest_ops,
-        next_op,
-        [digits, ..current_nums],
-        problems,
-      )
     }
-
-    _, _, _, _, _ -> panic as "Rows must have the same length"
   }
 }
 
