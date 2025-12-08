@@ -36,11 +36,24 @@ pub fn solve_part1(input: List(Box), connections: Int) -> Int {
   |> list.sort(int.compare)
   |> list.reverse
   |> list.take(3)
-  |> list.fold(from: 1, with: int.multiply)
+  |> int.product
 }
 
 pub fn solve_part2(input: List(Box)) -> Int {
-  0
+  input
+  |> list.combination_pairs
+  |> list.map(fn(bb) {
+    let #(b1, b2) = bb
+    Connection(from: b1.index, to: b2.index, distance: distance_squared(b1, b2))
+  })
+  |> list.sort(by: fn(c1, c2) { float.compare(c1.distance, c2.distance) })
+  |> find_last_connection(init_circuits(input))
+  |> fn(connection) {
+    let Connection(from, to, _) = connection
+    let assert Ok(box1) = input |> list.find(fn(b) { b.index == from })
+    let assert Ok(box2) = input |> list.find(fn(b) { b.index == to })
+    box1.x * box2.x
+  }
 }
 
 pub type Box {
@@ -115,6 +128,25 @@ fn circuits_merge(circuits: Circuits, conn: Connection) -> Circuits {
           |> dict.insert(big_root, { size_to + size_from })
           |> dict.delete(small_root),
       )
+    }
+  }
+}
+
+fn find_last_connection(
+  connections: List(Connection),
+  circuits: Circuits,
+) -> Connection {
+  case connections {
+    [] -> panic as "No connection connects all boxes"
+
+    [conn, ..rest] -> {
+      let circuits2 = circuits_merge(circuits, conn)
+      let components = dict.size(circuits2.sizes)
+
+      case components == 1 {
+        True -> conn
+        False -> find_last_connection(rest, circuits2)
+      }
     }
   }
 }
