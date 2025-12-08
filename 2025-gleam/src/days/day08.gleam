@@ -25,8 +25,7 @@ pub fn solve_part1(input: List(Box), connections: Int) -> Int {
   input
   |> list.combination_pairs
   |> list.map(fn(bb) {
-    let #(b1, b2) = bb
-    Connection(from: b1.index, to: b2.index, distance: distance_squared(b1, b2))
+    Connection(from: bb.0, to: bb.1, distance: distance_squared(bb.0, bb.1))
   })
   |> list.sort(by: fn(c1, c2) { float.compare(c1.distance, c2.distance) })
   |> list.take(connections)
@@ -43,16 +42,13 @@ pub fn solve_part2(input: List(Box)) -> Int {
   input
   |> list.combination_pairs
   |> list.map(fn(bb) {
-    let #(b1, b2) = bb
-    Connection(from: b1.index, to: b2.index, distance: distance_squared(b1, b2))
+    Connection(from: bb.0, to: bb.1, distance: distance_squared(bb.0, bb.1))
   })
   |> list.sort(by: fn(c1, c2) { float.compare(c1.distance, c2.distance) })
   |> find_last_connection(init_circuits(input))
   |> fn(connection) {
     let Connection(from, to, _) = connection
-    let assert Ok(box1) = input |> list.find(fn(b) { b.index == from })
-    let assert Ok(box2) = input |> list.find(fn(b) { b.index == to })
-    box1.x * box2.x
+    from.x * to.x
   }
 }
 
@@ -61,7 +57,7 @@ pub type Box {
 }
 
 type Connection {
-  Connection(from: Int, to: Int, distance: Float)
+  Connection(from: Box, to: Box, distance: Float)
 }
 
 type BoxId =
@@ -107,8 +103,8 @@ fn get_root(circuits: Circuits, node_id: BoxId) -> #(Circuits, BoxId) {
 fn circuits_merge(circuits: Circuits, conn: Connection) -> Circuits {
   let Connection(from, to, _) = conn
 
-  let #(circuits1, from_root) = get_root(circuits, from)
-  let #(circuits2, to_root) = get_root(circuits1, to)
+  let #(circuits1, from_root) = get_root(circuits, from.index)
+  let #(circuits2, to_root) = get_root(circuits1, to.index)
 
   case from_root == to_root {
     True -> circuits2
