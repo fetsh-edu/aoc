@@ -42,9 +42,15 @@ pub fn solve_part2(input: List(Tile)) -> Int {
 
   input
   |> list.combination_pairs
-  |> list.fold(from: 0, with: fn(best, tt) {
-    int.max(best, valid_area(tt.0, tt.1, slices))
+  |> list.map(fn(tt) { #(tt.0, tt.1, area(tt.0, tt.1)) })
+  |> list.sort(fn(a, b) { int.compare(b.2, a.2) })
+  |> list.find_map(fn(tt) {
+    case is_valid(tt.0, tt.1, slices) {
+      True -> Ok(tt.2)
+      False -> Error(Nil)
+    }
   })
+  |> result.unwrap(0)
 }
 
 pub type Tile {
@@ -62,24 +68,20 @@ fn area(tile1: Tile, tile2: Tile) -> Int {
   width * height
 }
 
-fn valid_area(
+fn is_valid(
   tile1: Tile,
   tile2: Tile,
   slices: dict.Dict(Int, List(#(Int, Int))),
-) -> Int {
+) -> Bool {
   let #(Tile(x1, y1), Tile(x2, y2)) = #(tile1, tile2)
   let #(x_min, x_max) = #(int.min(x1, x2), int.max(x1, x2))
-  case
-    list.range(int.min(y1, y2), int.max(y1, y2) - 1)
-    |> list.all(fn(y) {
-      dict.get(slices, y)
-      |> result.unwrap([])
-      |> list.any(fn(slice) { slice.0 <= x_min && x_max <= slice.1 })
-    })
-  {
-    True -> area(tile1, tile2)
-    False -> 0
-  }
+
+  list.range(int.min(y1, y2), int.max(y1, y2) - 1)
+  |> list.all(fn(y) {
+    dict.get(slices, y)
+    |> result.unwrap([])
+    |> list.any(fn(slice) { slice.0 <= x_min && x_max <= slice.1 })
+  })
 }
 
 fn build_slices_loop(
