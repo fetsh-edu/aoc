@@ -6,7 +6,6 @@ import gleam/result
 import gleam/set
 import gleam/string
 import utils/input
-import utils/time
 
 pub fn solve() -> Result(#(String, String), String) {
   use input <- result.try(input.read_input(10))
@@ -28,11 +27,9 @@ pub fn solve_part1(input: List(Machine)) -> Int {
 }
 
 pub fn solve_part2(input: List(Machine)) -> Int {
-  time.measure_echo(fn() {
-    input
-    |> list.map(minimum_presses_ilp)
-    |> int.sum
-  })
+  input
+  |> list.map(minimum_presses_ilp)
+  |> int.sum
 }
 
 pub type Machine {
