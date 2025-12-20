@@ -12,10 +12,11 @@ let test_part1 _ =
   |> assert_string_equal "2"
 
 let test_part2 _ =
-  let parsed = Camlukah.Day03.parse_input test_input in
-  let result = Camlukah.Day03.solve_part2 parsed in
-  (* TODO: Update expected result from puzzle description *)
-  assert_string_equal "TODO: expected result" result
+  "^>v<" |> Camlukah.Day03.parse_input |> Camlukah.Day03.solve_part2
+  |> assert_string_equal "3";
+
+  "^v^v^v^v^v" |> Camlukah.Day03.parse_input |> Camlukah.Day03.solve_part2
+  |> assert_string_equal "11"
 
 let suite =
   "Day 3 Tests"

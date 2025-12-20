@@ -31,6 +31,8 @@ module Int = struct
 
   let product = List.fold_left (fun acc x -> acc * x) 1
   let sum = List.fold_left ( + ) 0
+  let even n = n mod 2 = 0
+  let odd n = not (even n)
 end
 
 (** Placeholder for unimplemented code - raises a clear error message *)
