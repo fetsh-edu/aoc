@@ -1,0 +1,37 @@
+# Dune build artifacts
+_build/
+*.install
+
+# OCaml compiled files
+*.cmi
+*.cmo
+*.cmx
+*.cmt
+*.cmti
+*.cma
+*.cmxa
+*.cmxs
+*.a
+*.o
+*.so
+*.annot
+*.exe
+
+# Editor files
+.merlin
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Advent of Code specific
+.aoc-session
+inputs/
+
+# opam local switch
+_opam/

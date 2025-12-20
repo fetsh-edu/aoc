@@ -1,0 +1,5 @@
+(library
+ (name camlukah)
+ (libraries str lwt cohttp-lwt-unix lambdasoup ANSITerminal))
+
+(include_subdirs unqualified)

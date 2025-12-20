@@ -1,0 +1,6 @@
+(executable
+ (public_name camlukah)
+ (name main)
+ (libraries camlukah str cohttp-lwt-unix lambdasoup ANSITerminal lwt))
+
+(include_subdirs unqualified)
