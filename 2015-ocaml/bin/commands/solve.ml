@@ -29,6 +29,9 @@ let get_solver day =
     | 8 ->
       let module Solver = Day08 in
       Ok (module Solver : Day.Solver)
+    | 9 ->
+      let module Solver = Day09 in
+      Ok (module Solver : Day.Solver)
     | _ -> Error (Printf.sprintf "Day %d is not implemented yet" day)
 
 (** Run a specific part of a day with a given solver module *)

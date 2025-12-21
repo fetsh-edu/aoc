@@ -27,10 +27,15 @@ module List = struct
 
   let count p = List.fold_left (fun acc x -> acc + if p x then 1 else 0) 0
   let min = List.fold_left min max_int
+  let max = List.fold_left max min_int
 
   let min_by f = function
     | [] -> invalid_arg "List.min_by: empty list"
     | h :: t -> List.fold_left (fun acc x -> if f x < f acc then x else acc) h t
+
+  let rec window_by_2 = function
+    | x :: (y :: _ as rest) -> (x, y) :: window_by_2 rest
+    | _ -> []
 end
 
 module Int = struct
@@ -40,6 +45,32 @@ module Int = struct
   let sum = List.fold_left ( + ) 0
   let even n = n mod 2 = 0
   let odd n = not (even n)
+end
+
+module Set = struct
+  include Stdlib.Set
+
+  module type S_with_permutations = sig
+    include S
+
+    val permutations : t -> elt list list
+  end
+
+  module Make (Ord : OrderedType) : S_with_permutations with type elt = Ord.t =
+  struct
+    include Make (Ord)
+
+    let rec permutations set =
+      if is_empty set then [ [] ]
+      else
+        fold
+          (fun elem acc ->
+            let remaining = remove elem set in
+            let sub_perms = permutations remaining in
+            let with_elem = List.map (fun perm -> elem :: perm) sub_perms in
+            with_elem @ acc)
+          set []
+  end
 end
 
 module String = struct
