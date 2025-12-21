@@ -1,5 +1,11 @@
 (** Common helper functions available throughout the project *)
 
+module Array = struct
+  include Stdlib.Array (* This brings in map, filter, fold_left, etc. *)
+
+  let count p = Array.fold_left (fun acc x -> acc + if p x then 1 else 0) 0
+end
+
 module List = struct
   include Stdlib.List (* This brings in map, filter, fold_left, etc. *)
 
