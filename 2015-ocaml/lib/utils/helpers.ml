@@ -19,6 +19,7 @@ module List = struct
     in
     aux k list []
 
+  let count p = List.fold_left (fun acc x -> acc + if p x then 1 else 0) 0
   let min = List.fold_left min max_int
 
   let min_by f = function
@@ -34,6 +35,14 @@ module Int = struct
   let even n = n mod 2 = 0
   let odd n = not (even n)
 end
+
+module String = struct
+  include Stdlib.String
+
+  let is_vowel = function 'a' | 'e' | 'i' | 'o' | 'u' -> true | _ -> false
+end
+
+let ( >> ) f g x = g (f x)
 
 (** Placeholder for unimplemented code - raises a clear error message *)
 let todo () = failwith "Not yet implemented"

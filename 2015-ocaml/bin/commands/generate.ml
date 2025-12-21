@@ -144,13 +144,49 @@ let add_day_to_test_runner day =
         (Printf.sprintf "Day %d is already registered in %s" day
            test_runner_file)
     else
-      (* Update get_day_suite function - formatted version is single line *)
-      let get_suite_pattern = "match day with _ -> None" in
-      let new_suite_case =
-        Printf.sprintf "match day with\n  | %d -> Some Test_day%02d.suite\n  | _ -> None" day day
+      (* Update get_day_suite function *)
+      (* Use the function comment as an anchor to find the right wildcard *)
+      let suite_marker = "(** Get test suite for a specific day *)" in
+
+      (* Split content at the marker *)
+      let marker_regexp = Str.regexp_string suite_marker in
+      let marker_pos =
+        try Str.search_forward marker_regexp content 0
+        with Not_found ->
+          failwith "Could not find get_day_suite function marker"
       in
-      let regexp1 = Str.regexp_string get_suite_pattern in
-      let content = Str.replace_first regexp1 new_suite_case content in
+
+      let before_marker = String.sub content 0 marker_pos in
+      let after_marker = String.sub content marker_pos (String.length content - marker_pos) in
+
+      (* Try to find empty pattern first (no pipe) *)
+      let empty_wildcard = "match day with _ -> None" in
+      let empty_regexp = Str.regexp_string empty_wildcard in
+      let has_empty_pattern =
+        try
+          ignore (Str.search_forward empty_regexp after_marker 0);
+          true
+        with Not_found -> false
+      in
+
+      let updated_after =
+        if has_empty_pattern then
+          (* Empty case - replace "match day with _ -> None" *)
+          let new_match =
+            Printf.sprintf "match day with\n  | %d -> Some Test_day%02d.suite\n  | _ -> None" day day
+          in
+          Str.replace_first empty_regexp new_match after_marker
+        else
+          (* Non-empty case - replace "| _ -> None" *)
+          let wildcard_pattern = "| _ -> None" in
+          let wildcard_regexp = Str.regexp_string wildcard_pattern in
+          let new_case =
+            Printf.sprintf "| %d -> Some Test_day%02d.suite\n  | _ -> None" day day
+          in
+          Str.replace_first wildcard_regexp new_case after_marker
+      in
+
+      let content = before_marker ^ updated_after in
 
       (* Update all_suites function - formatted version uses [] instead of [\n  ] *)
       let updated_content =

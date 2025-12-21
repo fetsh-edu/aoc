@@ -8,10 +8,11 @@ let get_day_suite day =
   | 1 -> Some Test_day01.suite
   | 2 -> Some Test_day02.suite
   | 3 -> Some Test_day03.suite
+  | 5 -> Some Test_day05.suite
   | _ -> None
 
 (** Get all test suites *)
-let all_suites () = [ Test_day03.suite; Test_day01.suite; Test_day02.suite ]
+let all_suites () = [ Test_day05.suite; Test_day03.suite; Test_day01.suite; Test_day02.suite ]
 
 (** Main entry point *)
 let () =
